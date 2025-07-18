@@ -26,7 +26,69 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Quick Start: Document Comparison Test (Mac Terminal)
+## Quick Start Options
+
+### Option 1: Interactive Chat Interface (Easiest!)
+
+The simplest way to use the system - just have a conversation:
+
+```bash
+cd ~/projects/fhe-icp
+source venv/bin/activate
+python fhe_interactive.py
+```
+
+This gives you a friendly menu-driven interface:
+- No need to remember commands
+- Visual document selection
+- Clear explanations of similarity scores
+- Perfect for non-technical users
+
+Example interaction:
+```
+🔐 Welcome to FHE Document Comparison!
+Your documents are encrypted for privacy using advanced cryptography.
+
+==================================================
+What would you like to do?
+
+1. 📝 Add a document
+2. 🔍 Compare two documents
+3. 🔎 Search for similar documents
+4. ⚡ Quick compare (without saving)
+5. 📊 View statistics
+6. 👋 Exit
+
+Enter your choice (1-6): 1
+
+📝 Let's add a new document!
+
+You can type or paste your text below.
+(For multiple lines, end with a line containing just 'END')
+
+Artificial intelligence is transforming how we work
+END
+
+💾 Saving as: artificial_intelligence_is_115423
+📄 Preview: Artificial intelligence is transforming how we work
+
+✅ Document encrypted and saved!
+ID: artificial_intelligence_is_115423
+```
+
+### Option 2: Web Browser Interface
+
+Use a simple web interface in your browser:
+
+```bash
+cd ~/projects/fhe-icp
+source venv/bin/activate
+python fhe_simple_web.py
+```
+
+Then open http://localhost:8080 in your browser!
+
+### Option 3: Command Line Interface (Mac Terminal)
 
 Here's how to perform a complete document comparison test on macOS:
 
