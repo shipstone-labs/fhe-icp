@@ -58,3 +58,7 @@ urllib3==2.5.0
 xgboost==1.6.2
 z3-solver==4.13.0.0
 zipp==3.23.0
+
+# Session 4 requirements
+cryptography>=42.0.0
+msgpack>=1.0.0
