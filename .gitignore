@@ -1,0 +1,21 @@
+venv/
+__pycache__/
+*.pyc
+*.enc
+*.pth
+.DS_Store
+
+# Documentation
+/docs
+
+# Model and data files
+*.pkl
+*.npy
+
+# Results that can be regenerated
+*_results.json
+*_comparison.json
+
+# Environment files
+.env
+.venv
