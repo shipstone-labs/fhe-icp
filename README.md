@@ -26,11 +26,11 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Quick Start Options
+## Quick Start
 
-### Option 1: Clean Terminal Interface (Simplest!)
+### Clean Version (Recommended)
 
-Minimal output, maximum clarity:
+Simple commands with minimal output:
 
 ```bash
 cd ~/projects/fhe-icp
@@ -63,48 +63,9 @@ python fhe_clean.py search "artificial intelligence"
 #         doc_1: 71%
 ```
 
-No verbose logging, no technical details - just results!
+### Technical Version
 
-### Option 2: Interactive Chat Interface
-
-Have a conversation with the system:
-
-```bash
-cd ~/projects/fhe-icp
-source venv/bin/activate
-python fhe_interactive.py
-```
-
-Example:
-```
-🔐 Welcome to FHE Document Comparison!
-
-What would you like to do?
-1. 📝 Add a document
-2. 🔍 Compare two documents
-3. 🔎 Search for similar documents
-4. ⚡ Quick compare (without saving)
-5. 📊 View statistics
-6. 👋 Exit
-
-Enter your choice (1-6): 
-```
-
-### Option 3: Web Browser Interface
-
-Use a simple web interface:
-
-```bash
-cd ~/projects/fhe-icp
-source venv/bin/activate
-python fhe_simple_web.py
-```
-
-Then open http://localhost:8080 in your browser!
-
-### Option 4: Full CLI with Detailed Output
-
-For those who want all the technical details:
+For detailed logging and full control:
 
 ```bash
 # Generate FHE keys (first time only)
@@ -124,14 +85,15 @@ python fhe_cli.py stats
 
 ```
 fhe-icp/
-├── fhe_clean.py           # Clean minimal CLI
-├── fhe_interactive.py     # Interactive chat interface
-├── fhe_simple_web.py      # Web browser interface
-├── fhe_cli.py             # Full CLI with details
+├── fhe_clean.py           # Clean CLI (minimal output)
+├── fhe_cli.py             # Technical CLI (detailed output)
 ├── key_management.py      # Secure key handling
 ├── encrypted_storage.py   # Document storage
 ├── batch_operations.py    # Batch processing
-└── test_suite.py         # Tests
+├── bert_embeddings.py     # BERT integration
+├── dimension_reduction.py # PCA for embeddings
+├── fhe_similarity.py      # FHE model
+└── test_suite.py         # Comprehensive tests
 ```
 
 ## Requirements
