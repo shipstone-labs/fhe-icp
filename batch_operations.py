@@ -83,18 +83,26 @@ class BatchProcessor:
             if current_key:
                 # Create a new FHE model instance
                 from fhe_similarity import FHESimilarityModel
-                self.fhe_model = FHESimilarityModel(input_dim=256, n_bits=8)
+                self.fhe_model = FHESimilarityModel(input_dim=128, n_bits=8)
                 
-                # Train the model (needed before compilation)
+                # Train the model with proper similarity data
+                # The train() method will use _prepare_training_data() internally
+                X_train, y_train = self.fhe_model.train()
+                
+                # Compile the model using a sample from the training data
+                self.fhe_model.compile(X_train[:10])
+                
+                # Validate the model works correctly
                 import numpy as np
-                X_sample = np.random.randn(100, 256).astype(np.float32)
-                y_sample = np.random.randn(100)
-                self.fhe_model.train(X_sample, y_sample, n_samples=100)
+                # Test with identical embeddings (should give similarity ~1.0)
+                test_identical = np.hstack([X_train[0, :128], X_train[0, :128]]).reshape(1, -1)
+                similarity = self.fhe_model.predict_clear(test_identical)[0]
+                if abs(similarity - 1.0) > 0.2:
+                    logger.warning(f"Model validation failed: identical embeddings gave similarity {similarity:.3f}")
+                else:
+                    logger.info(f"Model validation passed: identical embeddings similarity = {similarity:.3f}")
                 
-                # Compile the model
-                self.fhe_model.compile(X_sample[:10])
-                
-                logger.info("FHE model initialized and compiled")
+                logger.info("FHE model initialized and compiled with similarity training data")
         except Exception as e:
             logger.warning(f"Could not initialize FHE model: {e}")
             logger.info("Generate keys first using key_manager.generate_keys()")
@@ -214,8 +222,8 @@ class BatchProcessor:
         doc2 = self.storage.load(doc_id2)
         
         # Prepare input for FHE model
-        # Concatenate embeddings as expected by the model
-        X = np.hstack([doc1.encrypted_embedding, doc2.encrypted_embedding]).reshape(1, -1)
+        # Use element-wise product for similarity computation
+        X = (doc1.encrypted_embedding * doc2.encrypted_embedding).reshape(1, -1)
         
         # Run FHE prediction
         start_time = time.time()
@@ -261,8 +269,8 @@ class BatchProcessor:
             doc_id = doc_info['doc_id']
             doc = self.storage.load(doc_id)
             
-            # Prepare input
-            X = np.hstack([query_reduced, doc.encrypted_embedding]).reshape(1, -1)
+            # Prepare input - element-wise product
+            X = (query_reduced * doc.encrypted_embedding).reshape(1, -1)
             
             # Compute similarity
             similarity = self.fhe_model.model.predict(X)[0]

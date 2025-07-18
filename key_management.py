@@ -135,13 +135,11 @@ class FHEKeyManager:
         print("Generating FHE keys (this may take 30-60 seconds)...")
         
         # Create a model instance to get keys
-        model = FHESimilarityModel(input_dim=256, n_bits=8)
-        X_sample = np.random.randn(100, 256).astype(np.float32)
-        y_sample = np.random.randn(100)
+        model = FHESimilarityModel(input_dim=128, n_bits=8)
         
-        # Train and compile to generate keys
-        model.train(X_sample, y_sample, n_samples=100)
-        model.compile(X_sample[:10])
+        # Train with proper similarity data and compile to generate keys
+        X_train, y_train = model.train()  # Uses internal _prepare_training_data()
+        model.compile(X_train[:10])
         
         # Save the compiled model (includes keys)
         master_key = self._get_master_key()

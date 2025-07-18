@@ -35,8 +35,8 @@ class FHESimilarityModel:
         """Generate training data for similarity model."""
         print(f"Generating {n_samples} training samples...")
         
-        # Half dimension for each embedding
-        single_dim = self.input_dim // 2
+        # Use full dimension for each embedding (not concatenated anymore)
+        single_dim = self.input_dim
         
         # Generate normalized embeddings
         emb1 = np.random.randn(n_samples, single_dim).astype(np.float32)
@@ -50,8 +50,8 @@ class FHESimilarityModel:
         emb2[mask] = emb1[mask] + 0.2 * np.random.randn(mask.sum(), single_dim)
         emb2 = emb2 / np.linalg.norm(emb2, axis=1, keepdims=True)
         
-        # Concatenate embeddings
-        X = np.hstack([emb1, emb2])
+        # Use element-wise product for cosine similarity
+        X = emb1 * emb2
         
         # Compute target similarities
         if self.similarity_type == 'cosine':
